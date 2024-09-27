@@ -1,5 +1,5 @@
 # Ignore all docx files
-*.docx
+
 
 # Ignore the pycache
 __pycache__/
