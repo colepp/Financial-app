@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'finbackend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME':'mytestdb',
+        'USER':'colep',
+        'PASSWORD':'q337#2c4',
+        'HOST':'71.194.14.138',
+        'PORT':'5432'
     }
 }
 
