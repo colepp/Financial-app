@@ -1,5 +1,6 @@
 # Ignore all docx files
-
-
+*.sqlite3
+# Ignore venv
+venv/
 # Ignore the pycache
 __pycache__/

@@ -1,8 +1,5 @@
 # Financial-app
 Financial app for comp sci capstone
-Brendan's edit
-AJ's edit
-Laura's edit
-Ethan's edit
-Cole's edit
-Liam's edit
+WealthWise Web Application
+
+- Weekly update link: https://docs.google.com/document/d/1MFZdZ16H9pybHSMBO4QIJi-62v7lA9uFw8dVGtlfPJQ/edit
