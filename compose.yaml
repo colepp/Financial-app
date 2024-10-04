@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  backend:
+    env_file:
+      - .env
+    build: ./backend
+    ports:
+      - "8000:8000"  # Django app exposed on port 8000
+    volumes:
+      - ./backend:/app
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB_DB}
+      - POSTGRES__DB_USER=${POSTGRES_DB_USER}
+      - POSTGRES__DBPASSWORD=${POSTGRES_DB_PASSWORD}
+      - POSTGRES_HOST=${POSTGRES_DB_HOST}
+
+volumes:
+  postgres_data:

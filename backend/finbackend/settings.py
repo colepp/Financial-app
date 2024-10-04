@@ -10,6 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+
+import os
+
+from dotenv import load_dotenv
+
+# Load env variables from the .env file
+load_dotenv()
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +33,7 @@ SECRET_KEY = 'django-insecure-!%!ffat_$ua7+j(k^r*mmyo-=iq#_&pab-o*!p541c(i1+399l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 
 # Application definition
@@ -76,10 +84,10 @@ WSGI_APPLICATION = 'finbackend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'mytestdb',
-        'USER':'',
-        'PASSWORD':'',
-        'HOST':'',
+        'NAME':os.getenv('POSTGRES_DB'),
+        'USER':os.getenv('POSTGRES_DB_USER'),
+        'PASSWORD':os.getenv('POSTGRES_DB_PASSWORD'),
+        'HOST':os.getenv('POSTGRES_DB_HOST'),
         'PORT':'5432'
     }
 }
