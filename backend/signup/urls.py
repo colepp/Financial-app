@@ -3,7 +3,10 @@ from . import views
 # import the path function for linking the view to the path
 # import the views for the path function
 
-# NOTE should add another page for login succes and login semi-succes(as in no attached bank account)
+
+# url patterns for signup page
+
+# NOTE add success and fail pages?
 urlpatterns = [
-    path("",views.index,name='index')
+    path("",views.signup,name='signup')
 ]

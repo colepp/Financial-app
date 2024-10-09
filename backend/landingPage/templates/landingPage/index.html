@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
     <head>
         <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet" />
@@ -27,8 +28,8 @@
             </div>
             <div class="v6_4"></div>
             <div class="name"></div>
-            <span class="v30_45">Sign up /</span>
-            <span class="v6_7"><a href="no link yet">Log in</a></span>
+            <span class="v30_45"><a href="{% url 'signup' %}">Sign up</a> /</span>
+            <span class="v6_7"><a href="#">Log in</a></span>
             <div class="v6_15">
                 <span class="v15_23">WealthWise</span>
                 <div class="v6_10"></div>
