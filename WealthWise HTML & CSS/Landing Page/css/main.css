@@ -55,25 +55,20 @@ nav > ul > li {
   font-size: 20px;
   color: #fff;
   border-style: none;
+  padding: 5px;
   background-color: rgba(34,34,34,1);
-  transition: 0.4s;
-  transition: transform 0.3s;
+  transition: transform 0.4s;
 }
 
 .nav-button:hover {
   background-color: #fff;
   color: rgba(34,34,34,1);
   transform: scale(1.04);
+  border-radius: 10px;
 }
 
-li > .nav-button > a {
-    text-decoration: none;
-    color: #fff;
-}
-
-li > .nav-button > a:hover {
-  text-decoration: none;
-  color: rgba(34,34,34,1);
+.nav-button:active {
+  transform: scale(0.98);
 }
 
 body {
@@ -335,4 +330,6 @@ body {
   opacity: 1;
   text-align: left;
 }
+
+
 
