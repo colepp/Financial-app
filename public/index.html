@@ -7,6 +7,10 @@
 </head>
 <body>
     <a href="#" id="connect" class="underline">Connect to Bank</a>
+    <button id="testConnect">Are we connected?</button>
+    <button id="findBank">What is my Bank?</button>
+    <button id="getAccounts">What are my accounts?</button>
+    <button id="getTransactions">What are my transactions?</button>
     <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 </body>
 
@@ -45,6 +49,7 @@
     }
 
     const exchangeToken = async function(publicToken){
+        console.log(publicToken)
         const tokenExchangeResponse = await fetch('/api/exchange_public_token', {
             method: 'POST',
             headers: {'Content-type': 'application/json'},
@@ -56,7 +61,35 @@
 
     }
 
-    document.querySelector('#connect').addEventListener('click', startLink)
+    const checkConnect = async function(){
+        const connected = await fetch('/api/is_user_connected');
+        const connectResponse = await connected.json();
+        console.log(JSON.stringify(connectResponse));
+    }
+
+    const findBank = async function(){
+        const bankResponse = await fetch('/api/get_connected_bank')
+        const bankName= await bankResponse.json();
+        console.log(JSON.stringify(bankName));
+    }
+
+    const getAccounts = async function(){
+        const accountsResponse = await fetch('/api/get_accounts');
+        const accounts = await accountsResponse.json();
+        console.log(JSON.stringify(accounts));
+    }
+
+    const getTransactions = async function(){
+        const transactionsResponse = await fetch('/api/get_transactions');
+        const transactions = await transactionsResponse.json();
+        console.log(JSON.stringify(transactions));
+    }
+
+    document.querySelector('#getTransactions').addEventListener('click', getTransactions);
+    document.querySelector('#findBank').addEventListener('click', findBank);
+    document.querySelector('#connect').addEventListener('click', startLink);
+    document.querySelector('#testConnect').addEventListener('click', checkConnect);
+    document.querySelector('#getAccounts').addEventListener('click', getAccounts);
     initializeLink();
 </script>
 </html>
