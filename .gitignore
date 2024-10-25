@@ -1,6 +1,6 @@
 # Ignore all docx files
 *.sqlite3
-.env
+
 
 #docker ignores
 volumes/
