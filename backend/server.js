@@ -1,18 +1,40 @@
 
 //init path
-const path = require('path');
+const path = require('path'); // for linking static and html files
 
 //init express
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require('express'); // express server framework
+const bodyParser = require('body-parser'); // parser for middleware
+
+// init helmet secrutity for middleware and server
+const helmet = require('helmet');
 
 // const exp = require('constants');
-const pool = require('./db');
+const pool = require('./db'); // database access
 
 // init app
 const app = express();
 
+
+// init express session manager
+const session = require('express-session');
+
+// configureing session middleware
+app.use(
+    session({
+        secret:'Q+-k"]#@@4}*z<@2empu7dn~Jn.T#;', // session object key put this in .env file
+        resave:false, // toggler for resaving the session into stoarge if the page has been modified or not
+        saveUninitialized:false, // toggler for saving unitialized session
+
+
+    })
+)
+
+
+
+
 // Middleware
+app.use(helmet());
 app.use(bodyParser.json());
 
 
@@ -24,7 +46,7 @@ const port = 3000;
 // Route to satic folder
 const STATIC_ROUTE = '../WealthWise HTML & CSS';
 
-// Landing page static files
+// html page static files
 app.use('/',express.static(path.join(__dirname,STATIC_ROUTE,'Landing Page')));
 app.use('/login',express.static(path.join(__dirname,STATIC_ROUTE,'Login Page')));
 app.use('/settings',express.static(path.join(__dirname,STATIC_ROUTE,'Settings Page')));
@@ -45,7 +67,8 @@ app.get('/login',(req,res)=> {
 
 app.get('/signup',(req,res) => {
     res.sendFile(path.join(__dirname,STATIC_ROUTE,'Signup Page','index.html'));
-})
+});
+
 app.post('/signup',async (req,res)=> {
     const {email,first_name,last_name,password,phone_number,} = req.body;
 
@@ -63,6 +86,8 @@ app.post('/signup',async (req,res)=> {
         res.status(500).json({error:'User Could not be made'});
     }
 });
+
+
 
 // Settings Page
 app.get('/Settings',(req,res) => {
