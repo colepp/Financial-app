@@ -8,6 +8,8 @@
 5. set up cookie and session storage ~ high/med (started not working on)
 6. find code repeated code that can be turned into functions/objects ~ low (working on)
 7. move server functions and or page request to their own files....? ~ low (not started)
+8. impletnredirects based on user being logged in or not ex. if a user tries to acces part of a 
+    site that requires a login and their not logged in redirect to the login page.
 */
 
 
@@ -123,7 +125,13 @@ app.post('/login',async (req,res) => {
     }
 
     // password compare
-    const password_confirm = await bcrypt.compare(password,user_exist.rows[0].password)
+    const password_confirm = await bcrypt.compare(password,user_exist.rows[0].password);
+    if(password_confirm){
+        req.session.user = {id:user.rows[0].id,name:user.rows[0].first_name}
+        res.send('Login Success');
+    }else{
+        res.status(401).send('Invalid EmailorPassword.');
+    }
 });
 
 
@@ -134,6 +142,6 @@ app.get('/Settings',(req,res) => {
 });
 
 // set server to listen on selected port
-app.listen(port,() =>{
+app.listen(port,() => {
     console.log(`"Server is running on http://localhost:${port}`);
 });

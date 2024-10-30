@@ -3,8 +3,13 @@
 const {Pool} = require('pg');
 
 
-// Load .env file varieables into proess
+// Load .env file varieables into process
 require('dotenv').config();
+
+console.log("Database host:", process.env.DB_HOST);
+console.log("Database user:", process.env.DB_USER);
+console.log("Database name:", process.env.DB_DATABASE);
+console.log("Database password:", process.env.DB_PASSWORD ? "Set" : "Not Set");
 
 // PostgreSQL connection pool
 const pool = new Pool({
