@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="#" id="connect" class="underline">Connect to Bank</a>
+    <button id="testConnect">Are we connected?</button>
+    <button id="findBank">What is my Bank?</button>
+    <button id="getAccounts">What are my accounts?</button>
+    <button id="getTransactions">What are my transactions?</button>
+    <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+</body>
+
+
+
+<script>
+    let linkTokenData
+
+    const initializeLink = async function() {
+        const linkTokenResponse = await fetch('/api/create_link_token')
+        linkTokenData = await linkTokenResponse.json()
+        console.log(JSON.stringify(linkTokenData))
+        console.log(JSON.stringify(linkTokenData.link_token))
+    }
+
+    const startLink = function(){
+        if (linkTokenData == undefined){
+            console.log('Why')
+            return; 
+        }
+        const handler = Plaid.create({
+            token: linkTokenData.link_token,
+            onSuccess: async (publicToken, metadata) => {
+                console.log('Public Token: ', publicToken)
+                await exchangeToken(publicToken)
+            },
+            onExit: (err, metadata) => {
+                console.log('Error: ', JSON.stringify(err))
+                console.log('Metadata: ', metadata)
+            },
+            onEvent: (eventName, metadata) => {
+                console.log('Event ', eventName)
+            }
+        })
+        handler.open();
+    }
+
+    const exchangeToken = async function(publicToken){
+        console.log(publicToken)
+        const tokenExchangeResponse = await fetch('/api/exchange_public_token', {
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({ public_token: publicToken }),
+        })
+        const tokenExchangeData = await tokenExchangeResponse.json()
+        console.log('Done exchange token')
+        window.location.href='index.html'
+
+    }
+
+    const checkConnect = async function(){
+        const connected = await fetch('/api/is_user_connected');
+        const connectResponse = await connected.json();
+        console.log(JSON.stringify(connectResponse));
+    }
+
+    const findBank = async function(){
+        const bankResponse = await fetch('/api/get_connected_bank')
+        const bankName= await bankResponse.json();
+        console.log(JSON.stringify(bankName));
+    }
+
+    const getAccounts = async function(){
+        const accountsResponse = await fetch('/api/get_accounts');
+        const accounts = await accountsResponse.json();
+        console.log(JSON.stringify(accounts));
+    }
+
+    const getTransactions = async function(){
+        const transactionsResponse = await fetch('/api/get_transactions');
+        const transactions = await transactionsResponse.json();
+        console.log(JSON.stringify(transactions));
+    }
+
+    document.querySelector('#getTransactions').addEventListener('click', getTransactions);
+    document.querySelector('#findBank').addEventListener('click', findBank);
+    document.querySelector('#connect').addEventListener('click', startLink);
+    document.querySelector('#testConnect').addEventListener('click', checkConnect);
+    document.querySelector('#getAccounts').addEventListener('click', getAccounts);
+    initializeLink();
+</script>
+</html>
