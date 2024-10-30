@@ -140,7 +140,11 @@
             dis.innerHTML="";
             let len = Number(JSON.stringify(accounts.length));
             for(let i=0;i<len;i++){
-                dis.innerHTML += JSON.stringify(accounts[i]['name']).replace(/"/g,"") + ": $" + JSON.stringify(accounts[i]['balances']['available']) + "<br>";
+                if(JSON.stringify(accounts[i]['balances']['available']) != "null"){
+                    dis.innerHTML += JSON.stringify(accounts[i]['name']).replace(/"/g,"") + ": $" + JSON.stringify(accounts[i]['balances']['available']) + "<br>";
+                } else {
+                    dis.innerHTML += JSON.stringify(accounts[i]['name']).replace(/"/g,"") + ": $" + JSON.stringify(accounts[i]['balances']['current']) + "<br>";
+                }
             }
         } else {
             dis.innerHTML = "You've not connected your bank";
@@ -155,7 +159,11 @@
             let len = Number(JSON.stringify(transactions.length));
             dis.innerHTML = "";
             for(let i=0;i<len;i++){
-                dis.innerHTML += JSON.stringify(transactions[i]['merchant_name']).replace(/"/g,"") + ": $" + JSON.stringify(transactions[i]['amount']) + "<br>";
+                if(JSON.stringify(transactions[i]['merchant_name']) != "null"){
+                    dis.innerHTML += JSON.stringify(transactions[i]['merchant_name']).replace(/"/g,"") + ": $" + JSON.stringify(transactions[i]['amount']) + "<br>";
+                } else {
+                    dis.innerHTML += JSON.stringify(transactions[i]['name']).replace(/"/g,"") + ": $" + JSON.stringify(transactions[i]['amount']) + "<br>";
+                }
             }
         } else {
             dis.innerHTML = "You've not connected your bank";
