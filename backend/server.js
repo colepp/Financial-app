@@ -34,6 +34,7 @@ const app = express(); // express app object
 
 // init express session manager
 const session = require('express-session');
+const { request } = require('https');
 
 // configureing session middleware
 app.use(
@@ -79,14 +80,23 @@ app.get('/',(req,res) => {
 // Login Page
 app.get('/login',(req,res)=> {
     res.sendFile(path.join(__dirname,STATIC_ROUTE,'Login Page','index.html'));
-
 });
 
 // Signup Page
 
+
+// Signup Reqs
+// email
+//password
+// fname
+// lname
+// redirect to plaid
+
+
 app.get('/signup',(req,res) => {
     res.sendFile(path.join(__dirname,STATIC_ROUTE,'Signup Page','index.html'));
 });
+
 
 app.post('/signup',async (req,res)=> {
     // gather signup items
@@ -106,12 +116,25 @@ app.post('/signup',async (req,res)=> {
     try{
         await pool.query('INSERT INTO users (email,first_name,last_name,phone_number,password) VALUES ($1,$2,$3,$4,$5)',[email,first_name,last_name,phone_number,hashed_password]);
         res.status(201).send('User Registered')
+        res.redirect('/register')
     }catch(error){
         console.log('Error Registering Users',error);
         res.status(500).send('User Could Not Be Registered');
     }
 
 });
+
+function getAcessToken(){
+
+    return null;
+}
+
+// Plaid Stuff
+
+app.get('/register',(req,res)=>{
+    
+});
+
 
 // Login Page
 
