@@ -14,21 +14,23 @@
             <button class="return-arrow"></button>
             <!--code for taking user back to landing page-->
             <div class="top-text">Log in</div>
-            <form action="POST">
+            <form action="/login" method="POST">
                 <h3>Username:</h3>
-                <label for="username"></label>
+                <label for="email"></label>
                 <div class="input-wrapper">
-                    <input type="username" id="username" placeholder="Enter username here">
+                    <input class="input-field" type="text" id="username" name="email" required>
                     <!--check this to see if this does what backend wants-->
+                    <!-- remove border -->
                 </div>
                 <h3>Password:</h3>
                 <label for="password"></label>
                 <div class="input-wrapper">
-                    <input type="password" id="username" placeholder="Enter password here">
+                    <input class="input-field" type="password" id="username" name="password" required> 
+                    <!-- remove border -->
                     <!--check this to see if this does what backend wants-->
                 </div>
-            </form>
-            <button class="login-button">Login</button>
+            <button type="submit" class="login-button">Login</button>
+            </form> <!-- Add Hover effect for button-->
             <div class="service-prompts">Forgot your password?</div> <!--turn into a link-->
             <div class="service-prompts">Don’t have an account?</div> <!--turn into a link-->
         </div>

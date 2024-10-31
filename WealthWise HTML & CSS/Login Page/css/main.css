@@ -84,9 +84,15 @@ input {
   background: rgba(217,217,217,1);
   border-radius: 38px;
 }
+
+.input-field{
+  border: none;
+
+}
   
 .login-button {
   padding: 10px;
+  cursor: pointer;
   width: 187px;
   margin: 10%;
   color: rgba(0,0,0,1);

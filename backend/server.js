@@ -56,6 +56,7 @@ app.use(
 // Middleware
 app.use(helmet()); 
 app.use(bodyParser.json()); // parse json request
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // active port being used
@@ -108,19 +109,27 @@ app.post('/signup',async (req,res)=> {
         return res.status(409).send('Email Already Taken.');
     }
 
-    // hash passowrd
-    const hashing_rounds = 10;
-    const hashed_password = bcrypt.hash(password,hashing_rounds);
 
-    // try to append new user with hashed password if not then return error 500
+    // hash passowrd
+    const salt_rounds = 10
+    bcrypt.hash(password, salt_rounds, async (err, hash) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log('Hashed Password:', hash); // Verify the hash before saving it to the DB
+        // try to append new user with hashed password if not then return error 500
     try{
-        await pool.query('INSERT INTO users (email,first_name,last_name,phone_number,password) VALUES ($1,$2,$3,$4,$5)',[email,first_name,last_name,phone_number,hashed_password]);
+        await pool.query('INSERT INTO users (email,first_name,last_name,phone_number,password) VALUES ($1,$2,$3,$4,$5)',[email,first_name,last_name,phone_number,hash]);
         res.status(201).send('User Registered')
         res.redirect('/register')
     }catch(error){
         console.log('Error Registering Users',error);
         res.status(500).send('User Could Not Be Registered');
     }
+      });
+
+    
 
 });
 
@@ -140,20 +149,25 @@ app.get('/register',(req,res)=>{
 
 app.post('/login',async (req,res) => {
     const {email,password} = req.body;
+    console.log(req);
+    console.log(email)
 
     // check if user exists
     const user_exist = await pool.query('SELECT * FROM users WHERE email = $1',[email]);
+    console.log(user_exist.rows.length);
     if(user_exist.rows.length === 0){
         return res.status(401).send('Invalid Email or Password.');
     }
 
     // password compare
     const password_confirm = await bcrypt.compare(password,user_exist.rows[0].password);
+    console.log(password_confirm)
     if(password_confirm){
-        req.session.user = {id:user.rows[0].id,name:user.rows[0].first_name}
+        req.session.user = {id:user_exist.rows[0].id,name:user_exist.rows[0].first_name}
         res.send('Login Success');
+        console.log('login success');
     }else{
-        res.status(401).send('Invalid EmailorPassword.');
+        res.status(401).send('Invalid Email or Password.');
     }
 });
 

@@ -17,4 +17,6 @@ services:
     working_dir: /app
     ports:
       - "8000:8000"
+    env_file:
+      - ./backend/.env 
     command: ["node", "server.js"]
