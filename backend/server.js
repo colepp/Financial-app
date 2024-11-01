@@ -65,7 +65,7 @@ const port = 3000;
 
 
 // Route to satic folder
-const STATIC_ROUTE = '../WealthWise HTML & CSS';
+const STATIC_ROUTE = './WealthWise HTML & CSS';
 
 // html page static files
 app.use('/',express.static(path.join(__dirname,STATIC_ROUTE,'Landing Page')));
