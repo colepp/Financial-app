@@ -39,6 +39,11 @@ app.listen(PORT, () =>{
 });
 
 
+app.get('/register',(req,res) => {
+    
+})
+
+
 // Config for the plaid enviornment
 
 const config = new Configuration({

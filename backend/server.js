@@ -111,10 +111,10 @@ app.post('/signup',async (req,res)=> {
 
 
     // hash passowrd
-    const salt_rounds = 10
+    const salt_rounds = 10 // hashing error
     bcrypt.hash(password, salt_rounds, async (err, hash) => {
         if (err) {
-          console.error(err);
+          console.error(err); // log error
           return;
         }
         console.log('Hashed Password:', hash); // Verify the hash before saving it to the DB
@@ -141,7 +141,7 @@ function getAcessToken(){
 // Plaid Stuff
 
 app.get('/register',(req,res)=>{
-    
+
 });
 
 
