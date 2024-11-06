@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self' https://cdn.plaid.com 'sha256-NIR1208NaoX3cz6BZGi7wvvHV1DPoW2/yXmc1qbElV4=';">
-
 
 </head>
 <body>
@@ -27,7 +23,7 @@
     const api_url = 'http://localhost:8000';
 
     const initializeLink = async function() {
-        const linkTokenResponse = await fetch(`${api_url}/api/create_link_token`);
+        const linkTokenResponse = await fetch(`/api/create_link_token`);
         linkTokenData = await linkTokenResponse.json();
         console.log(JSON.stringify(linkTokenData));
         console.log(JSON.stringify(linkTokenData.link_token));

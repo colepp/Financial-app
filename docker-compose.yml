@@ -1,6 +1,6 @@
 # version: '3'
 services:
-  backend:
+  web_server:
     build:
       context: ./backend
     working_dir: /app
@@ -9,5 +9,16 @@ services:
     env_file:
       - ./backend/.env  # Specify the path to the .env file
     command: ["node", "server.js"]
+  
+  plaid_api:
+    build:
+      context: ./plaid
+    working_dir: /app
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./plaid/.env
+    command: ["node","server.js"]
+
 
 

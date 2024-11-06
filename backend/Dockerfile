@@ -14,7 +14,7 @@ RUN npm install
 RUN npm rebuild bcrypt
 
 # Copy the rest of the application files
-COPY . .
+COPY . /app/
 
 # Expose the port your app runs on
 EXPOSE 3000
