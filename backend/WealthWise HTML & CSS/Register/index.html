@@ -53,7 +53,7 @@
 
     const exchangeToken = async function(publicToken){
         console.log(publicToken)
-        const tokenExchangeResponse = await fetch('/api/exchange_public_token', {
+        const tokenExchangeResponse = await fetch(`${api_url}/api/exchange_public_token`, {
             method: 'POST',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({ public_token: publicToken }),
@@ -65,25 +65,25 @@
     }
 
     const checkConnect = async function(){
-        const connected = await fetch('/api/is_user_connected');
+        const connected = await fetch(`${api_url}/api/is_user_connected`);
         const connectResponse = await connected.json();
         console.log(JSON.stringify(connectResponse));
     }
 
     const findBank = async function(){
-        const bankResponse = await fetch('/api/get_connected_bank')
+        const bankResponse = await fetch(`${api_url}/api/get_connected_bank`)
         const bankName= await bankResponse.json();
         console.log(JSON.stringify(bankName));
     }
 
     const getAccounts = async function(){
-        const accountsResponse = await fetch('/api/get_accounts');
+        const accountsResponse = await fetch(`${api_url}/api/get_accounts`);
         const accounts = await accountsResponse.json();
         console.log(JSON.stringify(accounts));
     }
 
     const getTransactions = async function(){
-        const transactionsResponse = await fetch('/api/get_transactions');
+        const transactionsResponse = await fetch(`${api_url}/api/get_transactions`);
         const transactions = await transactionsResponse.json();
         console.log(JSON.stringify(transactions));
     }
