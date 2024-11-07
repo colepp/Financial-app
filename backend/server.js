@@ -58,7 +58,7 @@ app.use(
 );
 
 // Middleware
-app.use(helmet()); 
+ 
 app.use(bodyParser.json()); // parse json request
 app.use(bodyParser.urlencoded({ extended: true }));
 

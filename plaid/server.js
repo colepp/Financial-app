@@ -1,11 +1,15 @@
-require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const session = require('express-session');
-const app = express();
-const { Configuration, PlaidApi, PlaidEnvironments } = require('plaid');
-const json = require('body-parser/lib/types/json');
+require('dotenv').config(); // loading .env files
+const express = require('express'); // express init
+const bodyParser = require('body-parser'); // parsing for JSON
+const session = require('express-session'); // session tool for express
+const app = express(); // making express app object
 
+const { Configuration, PlaidApi, PlaidEnvironments } = require('plaid'); // plaid tools
+const json = require('body-parser/lib/types/json'); // json tool
+
+// cole code input :) 
+const cors = require('cors'); // making cors oject
+app.use(cors()) // allow for access from all origins NOTE change on deployment
 
 const PORT = process.env.PORT || 8000
 

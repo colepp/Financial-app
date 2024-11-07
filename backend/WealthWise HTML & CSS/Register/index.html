@@ -23,7 +23,7 @@
     const api_url = 'http://localhost:8000';
 
     const initializeLink = async function() {
-        const linkTokenResponse = await fetch(`/api/create_link_token`);
+        const linkTokenResponse = await fetch(`${api_url}/api/create_link_token`);
         linkTokenData = await linkTokenResponse.json();
         console.log(JSON.stringify(linkTokenData));
         console.log(JSON.stringify(linkTokenData.link_token));
