@@ -18,7 +18,7 @@
 
 
 <script>
-    let linkTokenData
+    let linkTokenData;
 
     const api_url = 'http://localhost:8000';
 
@@ -31,21 +31,21 @@
 
     const startLink = function(){
         if (linkTokenData == undefined){
-            console.log('Why')
+            console.log('Why');
             return; 
         }
         const handler = Plaid.create({
             token: linkTokenData.link_token,
             onSuccess: async (publicToken, metadata) => {
-                console.log('Public Token: ', publicToken)
-                await exchangeToken(publicToken)
+                console.log('Public Token: ', publicToken);
+                await exchangeToken(publicToken);
             },
             onExit: (err, metadata) => {
-                console.log('Error: ', JSON.stringify(err))
-                console.log('Metadata: ', metadata)
+                console.log('Error: ', JSON.stringify(err));
+                console.log('Metadata: ', metadata);
             },
             onEvent: (eventName, metadata) => {
-                console.log('Event ', eventName)
+                console.log('Event ', eventName);
             }
         })
         handler.open();
@@ -57,10 +57,10 @@
             method: 'POST',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({ public_token: publicToken }),
-        })
-        const tokenExchangeData = await tokenExchangeResponse.json()
-        console.log('Done exchange token')
-        window.location.href='index.html'
+        });
+        const tokenExchangeData = await tokenExchangeResponse.json();
+        console.log('Done exchange token');
+        window.location.href='index.html';
 
     }
 
@@ -71,7 +71,7 @@
     }
 
     const findBank = async function(){
-        const bankResponse = await fetch(`${api_url}/api/get_connected_bank`)
+        const bankResponse = await fetch(`${api_url}/api/get_connected_bank`);
         const bankName= await bankResponse.json();
         console.log(JSON.stringify(bankName));
     }
@@ -88,12 +88,12 @@
         console.log(JSON.stringify(transactions));
     }
 
-
     document.querySelector('#getTransactions').addEventListener('click', getTransactions);
     document.querySelector('#findBank').addEventListener('click', findBank);
     document.querySelector('#connect').addEventListener('click', startLink);
     document.querySelector('#testConnect').addEventListener('click', checkConnect);
     document.querySelector('#getAccounts').addEventListener('click', getAccounts);
     initializeLink();
+
 </script>
 </html>
