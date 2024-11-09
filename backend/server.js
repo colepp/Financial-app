@@ -126,8 +126,8 @@ app.post('/signup',async (req,res)=> {
         // try to append new user with hashed password if not then return error 500
     try{
         await pool.query('INSERT INTO users (email,first_name,last_name,phone_number,password) VALUES ($1,$2,$3,$4,$5)',[email,first_name,last_name,phone_number,hash]);
-        res.status(201).send('User Registered')
-        res.redirect('/register')
+        // res.status(201).send('User Registered') // not needed but ill keep around just in case
+        res.redirect('/register'); // redirect to register page (waiting for it to be done....)
     }catch(error){
         console.log('Error Registering Users',error);
         res.status(500).send('User Could Not Be Registered');
@@ -138,20 +138,17 @@ app.post('/signup',async (req,res)=> {
 
 });
 
-async function getAcessToken(){
-
-    return null;
+async function postAccessToken(){
+    return;
 }
 
-// Plaid Stuff
-
+// Register Page
 app.get('/register',async (req,res)=>{
     res.sendFile(path.join(__dirname,STATIC_ROUTE,'Register','index.html'));
 });
 
 
 // Login Page
-
 app.post('/login',async (req,res) => {
     const {email,password} = req.body;
     console.log(req);
