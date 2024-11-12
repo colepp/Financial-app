@@ -1,14 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="POST">
-        <label for="username"></label>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet" />
+        <link href="./css/main.css" rel="stylesheet" />
+        <title>Document</title>
+    </head>
+    <body>
+        <header>
+            <h1 class="wealthwise">WealthWise</h1>
+        </header>
+        <div class="box">
+            <table>
+                <tr>
+                    <th>
+                        <a href='no link yet'>
+                            <button class="back_button">
+                                <img src="../images/v96_45.png" class="arrow"></img>
+                            </button>
+                        </a>
+                    </th>
+                    <th class="signup">Sign up</th>
+                </tr>
+            </table>
+            <div class="divider"></div>
+            <label type="text" class="direction" id="create_username">Create a username:</label>
+            <input class="textbox" id="username"></input>
+            <label type="text" class="direction" id="enter_email">Enter email:</label>
+            <input class="textbox" id="email"></input>
+            <label type="text" class="direction" id="create_password">Create a password:</label>
+            <input type="password" class="textbox" id="password"></input>
+            <label type="text" class="direction" id="confirm_password">Confirm password:</label>
+            <input type="password" class="textbox" id="confirmed_password"></input>
+            <a href='no link yet'><button class="create_account">Create an account</button></a>
+            <a href='no link yet'><button class="already_have">Already have an account?</button></a>
+        </div>
         
-    </form>
-</body>
+        
+    </body>
 </html>
