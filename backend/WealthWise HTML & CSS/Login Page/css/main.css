@@ -1,0 +1,118 @@
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none; /* Removes underline */
+  color: inherit; /* Makes the color the same as the parent */
+} 
+/* Removed styling from <a> tags */
+
+  
+body {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  font-family: Karla;
+  font-size: 20px;
+}
+  
+input {
+  align-self: center;
+  width: 90%;
+  font-family: Karla;
+  font-size: 20px;
+  background-color: transparent;
+}
+
+.header {
+  justify-content: left;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: auto;
+  background-color: rgba(34,34,34,1);
+  position: absolute;
+  z-index: 1000;
+}
+  
+  .wealthwise {
+  font-weight: Bold;
+  font-size: 30px;
+  color: #fff;
+  }
+  
+  .logo {
+  width: 58px;
+  height: 58px;
+  background-color: rgba(132,220,198,1);
+}
+  
+.wrapper {
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+  width: 400px;
+  height: 600px;
+  border: 1px solid rgba(132,220,198,1);
+  border-radius: 38px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.top-text {
+  align-self: center;
+  color: rgba(34,34,34,1);
+  font-weight: SemiBold;
+  font-size: 48px;
+  margin-bottom: 30px;
+}
+  
+.return-arrow {
+  align-self: first baseline;
+  width: 40px;
+  height: 40px;
+  background: url("../images/v64_129.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+  
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+  background: rgba(217,217,217,1);
+  border-radius: 38px;
+}
+
+.input-field{
+  border: none;
+
+}
+  
+.login-button {
+  padding: 10px;
+  cursor: pointer;
+  width: 187px;
+  margin: 10%;
+  color: rgba(0,0,0,1);
+  background-color: rgba(132,220,198,1);
+  font-family: Karla;
+  font-weight: SemiBold;
+  font-size: 20px;
+  text-align: center;
+}
+  
+.service-prompts {
+  color: rgba(239,71,111,1);
+  font-family: Karla;
+  font-weight: SemiBold;
+  font-size: 20px;
+}

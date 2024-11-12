@@ -1,0 +1,16 @@
+# Ignore all docx files
+*.sqlite3
+
+
+#docker ignores
+volumes/
+postgres_data/
+# Ignore venv
+venv/
+
+#ignore django
+*.log
+*.tmp
+
+# Ignore the pycache
+__pycache__/
