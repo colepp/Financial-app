@@ -1,6 +1,12 @@
+a {
+  text-decoration: none; /* Removes underline */
+  color: inherit; /* Makes the color the same as the parent */
+} 
+
 body {
   margin: 0;
-  font-size: 14px;
+  font-size: 20px;
+  font-family: Karla;
 }
 
 header {
@@ -15,50 +21,46 @@ header {
 }
 
 .wealthwise {
-  display: inline-block;
-  font-family: Karla;
   font-weight: Bold;
   font-size: 30px;
   color: #fff;
-  left: 1px;
-  margin-left: 43%;
+}
+
+.logo {
+  width: 58px;
+  height: 58px;
+  background-color: rgba(132,220,198,1);
+  margin-right: 20px;
+  margin-left: 20px;
 }
 
 .box {
   width: 493px;
-  height: 741px;
-  opacity: 1;
+  height: 854px;
   display: block;
   justify-content: center;
+  text-align: center;
   margin-top: 8%;
   margin-left: auto;
   margin-right: auto;
-  top: 82px;
-  left: 394px;
   border: 1px solid rgba(132,220,198,1);
   border-radius: 38px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
-  text-align: center;
   margin-bottom: 1%;
 }
 
 table {
   margin-top: 5%;
   margin-bottom: 5%;
-  margin-left: 5%;
-  width: 72%;
-}
-
-img {
-  width: 40px;
-  height: 40px;
+  margin-left: 5.7%;
+  width: 73%;
 }
 
 .back_button {
   border-style: none;
   background-color: #fff;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .back_button:hover {
@@ -70,9 +72,6 @@ img {
 }
 
 .signup {
-  color: rgba(34,34,34,1);
-  margin-top: 7%;
-  font-family: Karla;
   font-weight: SemiBold;
   font-size: 48px;
 }
@@ -90,14 +89,16 @@ input, label {
 
 label {
   color: rgba(0,0,0,1);
-  font-family: Karla;
   font-weight: SemiBold;
-  font-size: 20px;
   margin-top: 4%;
 }
 
-#create_username {
-  margin-right: 42%;
+#enter_name {
+  margin-right: 66%;
+}
+
+#enter_last {
+  margin-right: 58%;
 }
 
 #enter_email {
@@ -105,11 +106,11 @@ label {
 }
 
 #create_password {
-  margin-right: 44%;
+  margin-right: 43.5%;
 }
 
 #confirm_password {
-  margin-right: 44%;
+  margin-right: 43.5%;
 }
 
 input {
@@ -119,12 +120,16 @@ input {
   border-radius: 38px;
   border-style: solid;
   border-color: rgba(217,217,217,1);
-  font-family: Karla;
-  font-size: 20px;
   margin-top: 2%;
   padding-left: 20px;
   padding-right: 20px;
   transition: 0.3s;
+  font-size: 20px;
+  font-family: Karla;
+}
+
+input[type=password] {
+  font-size: 35px;
 }
 
 input:hover {
@@ -143,12 +148,13 @@ input:focus {
   border-radius: 38px;
   border-style: solid;
   border-color: rgba(132,220,198,1);
-  margin-top: 5%;
+  margin-top: 7%;
   border-style: none;
   font-family: Karla;
   font-weight: Bold;
   font-size: 20px;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .create_account:hover {
@@ -173,6 +179,7 @@ input:focus {
   text-align: center;
   margin-top: 5%;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .already_have:hover {
@@ -181,4 +188,38 @@ input:focus {
 
 .already_have:active {
   transform: scale(1);
+}
+
+#message {
+  display:none;
+  color: #000;
+  position: relative;
+}
+
+#message h3 {
+  font-size: 20px;
+}
+
+#message p {
+  font-size: 18px;
+}
+
+.valid {
+  color: rgba(132,220,198,1);
+}
+
+.valid:before {
+  position: relative;
+  right: 17px;
+  content: "✓";
+}
+
+.invalid {
+  color: rgba(239,71,111,1);
+}
+
+.invalid:before {
+  position: relative;
+  right: 17px;
+  content: "✖";
 }
