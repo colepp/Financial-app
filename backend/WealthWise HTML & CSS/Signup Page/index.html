@@ -26,6 +26,7 @@
                 <input 
                     class="textbox" 
                     id="name" 
+                    name="first_name"
                     title="Enter your name. Ex: John"
                     pattern="^[A-Z][a-z]+$"
                     required>
@@ -34,6 +35,7 @@
                 <input 
                     class="textbox" 
                     id="last" 
+                    name="last_name"
                     title="Enter your last name. Ex: Smith"
                     pattern="^[A-Z][a-z]+$"
                     required>
@@ -42,6 +44,7 @@
                 <input 
                     class="textbox" 
                     id="email" 
+                    name="email"
                     title="" 
                     type="email"
                     required>
@@ -49,6 +52,7 @@
                 <label class="direction" id="create_password" for="password">Create a password:</label>
                 <input 
                     type="password" 
+                    name="password"
                     class="textbox" 
                     id="password" 
                     pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}" 
@@ -66,6 +70,7 @@
                 <input 
                     type="password" 
                     class="textbox" 
+                    name="confirm_password"
                     id="confirmed_password" 
                     pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
                     title="Passwords must match" 

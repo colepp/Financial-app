@@ -73,21 +73,32 @@ const port = 3000;
 const STATIC_ROUTE = './WealthWise HTML & CSS';
 
 // html page static files
+
 app.use('/',express.static(path.join(__dirname,STATIC_ROUTE,'Landing Page')));
 app.use('/login',express.static(path.join(__dirname,STATIC_ROUTE,'Login Page')));
 app.use('/settings',express.static(path.join(__dirname,STATIC_ROUTE,'Settings Page')));
-app.use('/Signup',express.static(path.join(__dirname,STATIC_ROUTE,'Signup Page')))
+app.use('/signup',express.static(path.join(__dirname,STATIC_ROUTE,'Signup Page')));
+app.use('/dashboard',express.static(path.join(__dirname,STATIC_ROUTE,'Dashboard')));
 
 // Landing Page
 app.get('/',(req,res) => {
-    res.sendFile(path.join(__dirname,STATIC_ROUTE,'Landing Page','index.html'));
+    if(req.session.user){
+        res.redirect('/dashboard');
+    }else{
+        res.sendFile(path.join(__dirname,STATIC_ROUTE,'Landing Page','index.html'));
+    }
+    
 
 });
+
+
+
 
 // Login Page
 app.get('/login',(req,res)=> {
     res.sendFile(path.join(__dirname,STATIC_ROUTE,'Login Page','index.html'));
 });
+
 
 // Signup Page
 
@@ -100,15 +111,20 @@ app.get('/login',(req,res)=> {
 // redirect to plaid
 
 
+app.get('/dashboard',(req,res) => {
+    res.sendFile(path.join(__dirname,STATIC_ROUTE,'Dashboard','index.html'));
+})
+
 app.get('/signup',(req,res) => {
     res.sendFile(path.join(__dirname,STATIC_ROUTE,'Signup Page','index.html'));
 });
 
 
+
 app.post('/signup',async (req,res)=> {
     // gather signup items
     console.log(req.body);
-    const {email,first_name,last_name,password,phone_number,} = req.body;
+    const {email,first_name,last_name,password} = req.body;
 
     // check if email already in use if so return error 
     const user_exist = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
@@ -120,9 +136,9 @@ app.post('/signup',async (req,res)=> {
     // hash passowrd
     const salt_rounds = 10 // hashing error
     // const hashed_password = await bcrypt.hash(password,salt_rounds)
-    const hashed_password = password
+    const hashed_password = await bcrypt.hash(password,salt_rounds);
     try{
-        await pool.query('INSERT INTO users (email,first_name,last_name,phone_number,password) VALUES ($1,$2,$3,$4,$5)',[email,first_name,last_name,phone_number,hashed_password]);
+        await pool.query('INSERT INTO users (email,first_name,last_name,password) VALUES ($1,$2,$3,$4)',[email,first_name,last_name,hashed_password]);
         // res.status(201).send('User Registered') // not needed but ill keep around just in case
         res.redirect('/register'); // redirect to register page (waiting for it to be done....)
     }catch(error){
@@ -144,8 +160,8 @@ app.get('/register',async (req,res)=>{
 // Login Page
 app.post('/login',async (req,res) => {
     const {email,password} = req.body;
-    console.log(req);
-    console.log(email)
+    console.log(req.body);
+    console.log(email);
 
     // check if user exists
     const user_exist = await pool.query('SELECT * FROM users WHERE email = $1',[email]);
@@ -159,7 +175,8 @@ app.post('/login',async (req,res) => {
     console.log(password_confirm)
     if(password_confirm){
         req.session.user = {id:user_exist.rows[0].id,name:user_exist.rows[0].first_name}
-        res.send('Login Success');
+        console.log(req.session.user);
+        res.redirect('/dashboard');
         console.log('login success');
     }else{
         res.status(401).send('Invalid Email or Password.');
