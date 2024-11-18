@@ -76,6 +76,7 @@ const STATIC_ROUTE = './WealthWise HTML & CSS';
 app.use('/',express.static(path.join(__dirname,STATIC_ROUTE,'Landing Page')));
 app.use('/login',express.static(path.join(__dirname,STATIC_ROUTE,'Login Page')));
 app.use('/settings',express.static(path.join(__dirname,STATIC_ROUTE,'Settings Page')));
+app.use('/Signup',express.static(path.join(__dirname,STATIC_ROUTE,'Signup Page')))
 
 // Landing Page
 app.get('/',(req,res) => {
@@ -106,6 +107,7 @@ app.get('/signup',(req,res) => {
 
 app.post('/signup',async (req,res)=> {
     // gather signup items
+    console.log(req.body);
     const {email,first_name,last_name,password,phone_number,} = req.body;
 
     // check if email already in use if so return error 
@@ -117,15 +119,10 @@ app.post('/signup',async (req,res)=> {
 
     // hash passowrd
     const salt_rounds = 10 // hashing error
-    bcrypt.hash(password, salt_rounds, async (err, hash) => {
-        if (err) {
-          console.error(err); // log error
-          return;
-        }
-        console.log('Hashed Password:', hash); // Verify the hash before saving it to the DB
-        // try to append new user with hashed password if not then return error 500
+    // const hashed_password = await bcrypt.hash(password,salt_rounds)
+    const hashed_password = password
     try{
-        await pool.query('INSERT INTO users (email,first_name,last_name,phone_number,password) VALUES ($1,$2,$3,$4,$5)',[email,first_name,last_name,phone_number,hash]);
+        await pool.query('INSERT INTO users (email,first_name,last_name,phone_number,password) VALUES ($1,$2,$3,$4,$5)',[email,first_name,last_name,phone_number,hashed_password]);
         // res.status(201).send('User Registered') // not needed but ill keep around just in case
         res.redirect('/register'); // redirect to register page (waiting for it to be done....)
     }catch(error){
@@ -133,10 +130,6 @@ app.post('/signup',async (req,res)=> {
         res.status(500).send('User Could Not Be Registered');
     }
       });
-
-    
-
-});
 
 async function postAccessToken(){
     return;
