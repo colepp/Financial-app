@@ -74,11 +74,11 @@ const STATIC_ROUTE = './WealthWise HTML & CSS';
 
 // html page static files
 
-app.use('/',express.static(path.join(__dirname,STATIC_ROUTE,'Landing Page')));
-app.use('/login',express.static(path.join(__dirname,STATIC_ROUTE,'Login Page')));
-app.use('/settings',express.static(path.join(__dirname,STATIC_ROUTE,'Settings Page')));
-app.use('/signup',express.static(path.join(__dirname,STATIC_ROUTE,'Signup Page')));
-app.use('/dashboard',express.static(path.join(__dirname,STATIC_ROUTE,'Dashboard')));
+app.use('/',express.static(path.join(__dirname,STATIC_ROUTE,'Landing Page/static')));
+app.use('/login',express.static(path.join(__dirname,STATIC_ROUTE,'Login Page/static')));
+app.use('/settings',express.static(path.join(__dirname,STATIC_ROUTE,'Settings Page/static')));
+app.use('/signup',express.static(path.join(__dirname,STATIC_ROUTE,'Signup Page/static')));
+app.use('/dashboard',express.static(path.join(__dirname,STATIC_ROUTE,'Dashboard/static')));
 
 // Landing Page
 app.get('/',(req,res) => {
