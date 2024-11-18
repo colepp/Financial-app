@@ -83,8 +83,10 @@ app.use('/dashboard',express.static(path.join(__dirname,STATIC_ROUTE,'Dashboard/
 // Landing Page
 app.get('/',(req,res) => {
     if(req.session.user){
+        console.log('user logged in');
         res.redirect('/dashboard');
     }else{
+        console.log('user not logged in');
         res.sendFile(path.join(__dirname,STATIC_ROUTE,'Landing Page','index.html'));
     }
     
@@ -111,10 +113,13 @@ app.get('/login',(req,res)=> {
 // redirect to plaid
 
 
+// dashboard page
 app.get('/dashboard',(req,res) => {
     res.sendFile(path.join(__dirname,STATIC_ROUTE,'Dashboard','index.html'));
 })
 
+
+// signup page
 app.get('/signup',(req,res) => {
     res.sendFile(path.join(__dirname,STATIC_ROUTE,'Signup Page','index.html'));
 });
@@ -183,7 +188,12 @@ app.post('/login',async (req,res) => {
     }
 });
 
-
+app.get('/logout',async (req,res) =>{
+    if(req.session.user){
+        req.session.user = null;
+        res.redirect('/');
+    }
+})
 
 // Settings Page
 app.get('/Settings',(req,res) => {
