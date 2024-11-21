@@ -3,11 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet" />
+    <link href="./static/main.css" rel="stylesheet" />
     <title>Budgeting</title>
 </head>
 <body>
-    <div id="chart"></div>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="./js/script.js"></script>
+    <div class="header">
+        <div class="logo"></div>
+        <h1 class="wealthwise"><a href="/">WealthWise</a></h1>
+        <button class="profile"></button>
+    </div>
+    <div class="sidebar">
+        <button href="/" class="option" style="background:rgba(132,220,198,0.6);">Spending</button>
+        <button href="/" class="option">Bank Info</button>
+        <button href="/" class="option">Profile</button>
+        <button href="/" class="option"><a href="/settings">Settings</a></button>
+        <button href="/" class="logout">log out</button>
+    </div>
+    <h1 class="tab-title">Spending</h1>
+    <div class="tabcontent">
+        <div id="chart"></div>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="./js/script.js"></script>
+    </div>
 </body>
 </html>

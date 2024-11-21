@@ -11,6 +11,7 @@ body {
   margin: 0;
   font-family: Karla;
   font-size: 20px;
+  background-color: rgba(34,34,34,1);
 }
 
 .header {
@@ -34,6 +35,8 @@ body {
   width: 58px;
   height: 58px;
   background-color: rgba(132,220,198,1);
+  margin-right: 20px;
+  margin-left: 20px;
 }
 .profile {
   margin-left: auto;
@@ -86,13 +89,10 @@ body {
   cursor: pointer;
 }
 .tab-title {
-  margin: 0;
-  margin-left: 15%;
-  padding-left: 5%;
   font-size:50px;
-  background-color: #dce3e7;
+  background-color:  #dce3e7;
 }
-.dashboard-section {
+.tabcontent {
   gap: 1px;
   position: fixed;
   width: 85%;
