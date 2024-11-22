@@ -1,18 +1,35 @@
+<!--BANK IFNO TAB-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./static/main.css" rel="stylesheet">
     <title>Document</title>
-
 </head>
 <body>
-    <a href="#" id="connect" class="underline">Connect to Bank</a>
-    <button id="testConnect">Are we connected?</button>
-    <button id="findBank">What is my Bank?</button>
-    <button id="getAccounts">What are my accounts?</button>
-    <button id="getTransactions">What are my transactions?</button>
-    <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+    <header>
+        <div class="logo"></div>
+        <h1 class="wealthwise"><a href="/">WealthWise</a></h1>
+        <button class="profile"></button>
+    </header>
+    <div class="sidebar">
+        <button href="/" class="option">Spending</button>
+        <button href="/" class="option" style="background:rgba(132,220,198,0.6);">Bank Info</button>
+        <button href="/" class="option">Profile</button>
+        <button href="/" class="option">Settings</button>
+        <button href="/" class="logout">log out</button>
+    </div>
+    <h1 class="tab-title">Bank Information</h1>
+    <div class="dashboard-section">
+        <a href="#" id="connect" class="underline">Connect to Bank</a>
+        <button class="dashboard-button" id="testConnect">Are we connected?</button>
+        <button class="dashboard-button" id="findBank">What is my Bank?</button>
+        <button class="dashboard-button" id="getAccounts">What are my accounts?</button>
+        <button class="dashboard-button" id="getTransactions">What are my transactions?</button>
+        <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+    </div>
 </body>
 
 

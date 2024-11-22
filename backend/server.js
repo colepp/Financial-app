@@ -79,6 +79,10 @@ app.use('/login',express.static(path.join(__dirname,STATIC_ROUTE,'Login Page/sta
 app.use('/settings',express.static(path.join(__dirname,STATIC_ROUTE,'Settings Page/static')));
 app.use('/signup',express.static(path.join(__dirname,STATIC_ROUTE,'Signup Page/static')));
 app.use('/dashboard',express.static(path.join(__dirname,STATIC_ROUTE,'Dashboard/static')));
+app.use('/monthlyBudget',express.static(path.join(__dirname,STATIC_ROUTE,'Monthly Budgeting Page/static')));
+app.use('/weeklyBudget',express.static(path.join(__dirname,STATIC_ROUTE,'Weekly Budgeting Page/static')));
+app.use('/bankInfo',express.static(path.join(__dirname,STATIC_ROUTE,'Bank Info Page/static')));
+app.use('/profile',express.static(path.join(__dirname,STATIC_ROUTE,'Profile Page/static')));
 
 // Landing Page
 app.get('/',(req,res) => {
@@ -92,8 +96,25 @@ app.get('/',(req,res) => {
     
 
 });
+//Monthly Budget Page
+app.get('/monthlyBudget', (req,res)=>{
+    res.sendFile(path.join(__dirname,STATIC_ROUTE,'Monthly Budgeting Page','index.html'));
+});
 
+//Weekly Budget Page
+app.get('/weeklyBudget', (req,res)=>{
+    res.sendFile(path.join(__dirname,STATIC_ROUTE,'Weekly Budgeting Page','index.html'));
+});
 
+//Bank Information Page
+app.get('/bankInfo', (req,res)=>{
+    res.sendFile(path.join(__dirname,STATIC_ROUTE,'Bank Info Page','index.html'));
+});
+
+//Profile Page
+app.get('/profile', (req,res)=>{
+    res.sendFile(path.join(__dirname,STATIC_ROUTE,'Profile Page','index.html'));
+});
 
 
 // Login Page

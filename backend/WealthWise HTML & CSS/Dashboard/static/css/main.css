@@ -11,6 +11,7 @@ body {
   margin: 0;
   font-family: Karla;
   font-size: 20px;
+  background-color: rgba(34,34,34,1);
 }
 
 .header {
@@ -34,6 +35,8 @@ body {
   width: 58px;
   height: 58px;
   background-color: rgba(132,220,198,1);
+  margin-right: 20px;
+  margin-left: 20px;
 }
 .profile {
   margin-left: auto;
@@ -85,18 +88,18 @@ body {
   background: rgb(60, 60, 60);
   cursor: pointer;
 }
-
-.dashboard-section {
+.tab-title {
+  font-size:50px;
+  background-color:  #dce3e7;
+}
+.tabcontent {
   gap: 1px;
   position: fixed;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 50%);
-  column-gap: 3%;
-  row-gap: 3%;
   width: 85%;
   height: 90%;
   margin-left: 15%;
-  padding: 1%;
+  padding-left: 5%;
+  padding-right: 20%;
   background: rgba(236,235,243,1);
 }
 .spending, .quick-info, .other {

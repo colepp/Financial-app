@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet" />
+    <link href="./css/main.css" rel="stylesheet" />
+    <title>Budgeting</title>
+</head>
+<body>
+    <div class="header">
+        <div class="logo"></div>
+        <h1 class="wealthwise"><a href="/">WealthWise</a></h1>
+        <button class="profile"></button>
+    </div>
+    <div class="sidebar">
+        <button href="/" class="option"><a href="/monthlyBudget">Monthly Spending</a></button>
+        <button href="/" class="option"><a href="/weeklyBudget">Weekly Spending </a></button>
+        <button href="/" class="option"><a href="/bankInfo"> Bank Info</a></button>
+        <button href="/" class="option" style="background:rgba(132,220,198,0.6);"><a href="/profile">Profile</a></button>
+        <button href="/" class="option"><a href="/settings">Settings</a></button>
+        <button href="/" class="logout">Log out</button>
+    </div>
+    <h1 class="tab-title">Profile</h1>
+    <div class="tabcontent">
+        <div id="chart"></div>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="./js/script.js"></script>
+    </div>
+</body>
+</html>
