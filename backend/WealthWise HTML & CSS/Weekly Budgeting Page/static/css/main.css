@@ -1,0 +1,107 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  a {
+    text-decoration: none; /* Removes underline */
+    color: inherit; /* Makes the color the same as the parent */
+  } /* Removed styling from <a> tags */
+  
+  body {
+    margin: 0;
+    font-family: Karla;
+    font-size: 20px;
+    background-color: rgba(34,34,34,1);
+  }
+  
+  .header {
+    justify-content: left;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 10%;
+    background-color: rgba(34,34,34,1);
+    z-index: 1000;
+    border-bottom: 5px solid rgba(132,220,198,1);
+  }
+  .wealthwise {
+    font-weight: Bold;
+    font-size: 30px;
+    color: #fff;
+    }
+    
+  .logo {
+    width: 58px;
+    height: 58px;
+    background-color: rgba(132,220,198,1);
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+  .profile {
+    margin-left: auto;
+    margin-right: 5%;
+    width: 58px;
+    height: 58px;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(132,220,198,1);
+  }
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    width: 15%;
+    height: 100%;
+    background: rgba(34,34,34,1);
+  }
+  .option {
+    margin-top: 20%;
+    padding: 10px;
+    width: 80%;
+    font-family: Karla;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 20px;
+    border-style: solid;
+    border-color: rgba(132,220,198,1);
+    background: rgba(34,34,34,1);
+    color: rgba(255,255,255,1);
+  }
+  
+  .logout {
+    position: absolute;
+    bottom: 15%;
+    padding: 10px;
+    width: 80%;
+    font-family: Karla;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 20px;
+    border-style: solid;
+    border-color: rgba(132,220,198,1);
+    background: rgba(34,34,34,1);
+    color: rgba(255,255,255,1);
+  }
+  .option:hover, .logout:hover{
+    background: rgb(60, 60, 60);
+    cursor: pointer;
+  }
+  .tab-title {
+    margin: 0;
+    margin-left: 15%;
+    padding-left: 5%;
+    font-size:50px;
+    background-color:  #dce3e7;
+  }
+  .tabcontent {
+    gap: 1px;
+    position: fixed;
+    width: 85%;
+    height: 90%;
+    margin-left: 15%;
+    padding-left: 5%;
+    padding-right: 20%;
+    background: rgba(236,235,243,1);
+  }
