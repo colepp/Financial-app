@@ -2,21 +2,15 @@
 /*
 #. goal ~ priority (status)
 1. Set up https certs for server ~ low (not started)
-2. secure signup process ~ high (working on)
-3. create login process and secure it ~ high (working on)
 4. create function for password reset ~ med (not started)
-5. set up cookie and session storage ~ high/med (started not working on)
 6. find code repeated code that can be turned into functions/objects ~ low (working on)
-7. move server functions and or page request to their own files....? ~ low (not started)
-8. impletnredirects based on user being logged in or not ex. if a user tries to acces part of a 
-    site that requires a login and their not logged in redirect to the login page.
+8. impletn redirects based on user being logged in or not ex. if a user tries to acces part of a 
+    site that requires a login and their not logged in redirect to the login page. (started)
 */
 
 
 //init https
 const https = require('https');
-
-
 
 
 //init path
@@ -83,6 +77,7 @@ app.use('/monthlyBudget',express.static(path.join(__dirname,STATIC_ROUTE,'Monthl
 app.use('/weeklyBudget',express.static(path.join(__dirname,STATIC_ROUTE,'Weekly Budgeting Page/static')));
 app.use('/bankInfo',express.static(path.join(__dirname,STATIC_ROUTE,'Bank Info Page/static')));
 app.use('/profile',express.static(path.join(__dirname,STATIC_ROUTE,'Profile Page/static')));
+app.use('/register',express.static(path.join(__dirname,STATIC_ROUTE,'Register/static')));
 
 // Landing Page
 app.get('/',(req,res) => {
@@ -122,30 +117,15 @@ app.get('/login',(req,res)=> {
     res.sendFile(path.join(__dirname,STATIC_ROUTE,'Login Page','index.html'));
 });
 
-
-// Signup Page
-
-
-// Signup Reqs
-// email
-//password
-// fname
-// lname
-// redirect to plaid
-
-
 // dashboard page
 app.get('/dashboard',(req,res) => {
     res.sendFile(path.join(__dirname,STATIC_ROUTE,'Dashboard','index.html'));
 })
 
-
 // signup page
 app.get('/signup',(req,res) => {
     res.sendFile(path.join(__dirname,STATIC_ROUTE,'Signup Page','index.html'));
 });
-
-
 
 app.post('/signup',async (req,res)=> {
     // gather signup items
@@ -157,7 +137,6 @@ app.post('/signup',async (req,res)=> {
     if(user_exist.rows.length > 0){
         return res.status(409).send('Email Already Taken.');
     }
-
 
     // hash passowrd
     const salt_rounds = 10 // hashing error
