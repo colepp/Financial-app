@@ -79,9 +79,11 @@ app.use('/bankInfo',express.static(path.join(__dirname,STATIC_ROUTE,'Bank Info P
 app.use('/profile',express.static(path.join(__dirname,STATIC_ROUTE,'Profile Page/static')));
 app.use('/register',express.static(path.join(__dirname,STATIC_ROUTE,'Register/static')));
 
+
 // Landing Page
 app.get('/',(req,res) => {
-    if(req.session.user){
+    const logged_in = loggedIn(req)
+    if(logged_in){
         console.log('user logged in');
         res.redirect('/dashboard');
     }else{
@@ -119,6 +121,7 @@ app.get('/login',(req,res)=> {
 
 // dashboard page
 app.get('/dashboard',(req,res) => {
+
     res.sendFile(path.join(__dirname,STATIC_ROUTE,'Dashboard','index.html'));
 })
 
@@ -158,7 +161,14 @@ async function postAccessToken(){
 
 // Register Page
 app.get('/register',async (req,res)=>{
-    res.sendFile(path.join(__dirname,STATIC_ROUTE,'Register','index.html'));
+    const logged_in = await loggedIn(req);
+    if(logged_in){
+        res.sendFile(path.join(__dirname,STATIC_ROUTE,'Register','index.html'));
+    }else{
+        res.redirect('/');
+    }
+
+    
 });
 
 
@@ -179,7 +189,7 @@ app.post('/login',async (req,res) => {
     const password_confirm = await bcrypt.compare(password,user_exist.rows[0].password);
     console.log(password_confirm)
     if(password_confirm){
-        req.session.user = {id:user_exist.rows[0].id,name:user_exist.rows[0].first_name}
+        req.session.user = {id:user_exist.rows[0].id,name:user_exist.rows[0].first_name,bank_connected:user_exist.rows[0].bank_connected}
         console.log(req.session.user);
         res.redirect('/dashboard');
         console.log('login success');
@@ -206,3 +216,12 @@ app.listen(port,() => {
 });
 
 
+
+
+
+async function loggedIn(request){
+    if(request.session.user){
+        return true;
+    }
+    return false;
+}
