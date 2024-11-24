@@ -82,7 +82,7 @@ app.use('/register',express.static(path.join(__dirname,STATIC_ROUTE,'Register/st
 
 // Landing Page
 app.get('/',(req,res) => {
-    const logged_in = loggedIn(req)
+    const logged_in = loggedIn(req);
     if(logged_in){
         console.log('user logged in');
         res.redirect('/dashboard');
@@ -95,22 +95,52 @@ app.get('/',(req,res) => {
 });
 //Monthly Budget Page
 app.get('/monthlyBudget', (req,res)=>{
-    res.sendFile(path.join(__dirname,STATIC_ROUTE,'Monthly Budgeting Page','index.html'));
+    const logged_in = loggedIn(req);
+    if(logged_in){
+        console.log('user logged in');
+        res.sendFile(path.join(__dirname,STATIC_ROUTE,'Monthly Budgeting Page','index.html'));
+    }else{
+        console.log('user not logged in');
+        res.redirect('/');
+    }
+    
 });
 
 //Weekly Budget Page
 app.get('/weeklyBudget', (req,res)=>{
-    res.sendFile(path.join(__dirname,STATIC_ROUTE,'Weekly Budgeting Page','index.html'));
+    const logged_in = loggedIn(req);
+    if(logged_in){
+        console.log('user logged in');
+        res.sendFile(path.join(__dirname,STATIC_ROUTE,'Weekly Budgeting Page','index.html')); 
+    }else{
+        console.log('user not logged in');
+        res.redirect('/');
+    }
 });
 
 //Bank Information Page
 app.get('/bankInfo', (req,res)=>{
-    res.sendFile(path.join(__dirname,STATIC_ROUTE,'Bank Info Page','index.html'));
+    const logged_in = loggedIn(req);
+    if(logged_in){
+        console.log('user logged in')
+        res.sendFile(path.join(__dirname,STATIC_ROUTE,'Bank Info Page','index.html'));
+    }else{
+        console.log('user not logged in');
+        res.redirect('/');
+    }
+    
 });
 
 //Profile Page
 app.get('/profile', (req,res)=>{
-    res.sendFile(path.join(__dirname,STATIC_ROUTE,'Profile Page','index.html'));
+    const logged_in = loggedIn(req);
+    if(logged_in){
+        console.log('user logged in')
+        res.sendFile(path.join(__dirname,STATIC_ROUTE,'Profile Page','index.html'));
+    }else{
+        console.log('user not logged in')
+        res.redirect('/');
+    }
 });
 
 
@@ -121,8 +151,14 @@ app.get('/login',(req,res)=> {
 
 // dashboard page
 app.get('/dashboard',(req,res) => {
-
-    res.sendFile(path.join(__dirname,STATIC_ROUTE,'Dashboard','index.html'));
+    const logged_in = loggedIn(req);
+    if(logged_in){
+        console.log('user logged in');
+        res.sendFile(path.join(__dirname,STATIC_ROUTE,'Dashboard','index.html'));
+    }else{
+        console.log('user not logged in');
+        res.redirect('/');
+    }
 })
 
 // signup page
