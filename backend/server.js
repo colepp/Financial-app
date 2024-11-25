@@ -219,6 +219,7 @@ app.get('/logout',async (req,res) =>{
 
 app.get('/session', async (req,res) => {
     if(req.session.user){
+        console.log('user logged in')
         res.send(req.session.user);
     }else{
         res.send(null);

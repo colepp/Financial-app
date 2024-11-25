@@ -31,14 +31,20 @@
         </div>
         <script>
             async function getSession() {
-                const user_details = await fetch('http://localhost:3000/session');
-                console.log(user_details)
-                if(user_details){
-                    const user_name = document.getElementById('user_name');
-                    user_name.textContent = user_details.name;
+                console.log('fetching user details')
+                const user_session = await fetch('http://localhost:3000/session');
+                if(user_session.ok){
+                    const user_details = await user_session.json()
+                    console.log(user_details.name)
+                    if(user_details){
+                        const user_name = document.getElementById('user_name');
+                        user_name.textContent = `Hello, ${user_details.name}`;
+                    }
                 }
                 
+
             }
+            getSession();
 
         </script>
     </body>
