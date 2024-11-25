@@ -191,7 +191,7 @@ app.post('/signup',async (req,res)=> {
         console.log('Error Registering Users',error);
         res.status(500).send('User Could Not Be Registered');
     }
-      });
+});
 
 
 
