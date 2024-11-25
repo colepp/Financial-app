@@ -32,6 +32,7 @@ async function getAccessToken() {
     const ac = await fetch('http://localhost:3000/get_access_token');
     if(ac.ok){
       const temp_access_token = await ac.json();
+      console.log(temp_access_token);
     }
     
   }
