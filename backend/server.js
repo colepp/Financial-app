@@ -120,7 +120,6 @@ app.get('/bankInfo', (req,res)=>{
     }else{
         res.redirect('/');
     }
-    
 });
 
 //Profile Page
