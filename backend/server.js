@@ -35,6 +35,7 @@ const app = express(); // express app object
 // init express session manager
 const session = require('express-session');
 const { request } = require('https');
+const { access } = require('fs');
 
 // configureing session middleware
 app.use(
@@ -218,7 +219,7 @@ app.get('/logout',async (req,res) =>{
 
 app.get('/session', async (req,res) => {
     if(req.session.user){
-        console.log('user logged in')
+        console.log('user logged in');
         res.send(req.session.user);
     }else{
         res.send(null);
@@ -260,6 +261,19 @@ app.post('/post_access_token',async (req,res) => {
         console.log(e);
     }
     res.redirect(302, '/'); 
+});
+
+app.get('/get_access_token',async (req,res) => {
+    if(req.session.user){
+        const user = await pool.query('SELECT * FROM users WHERE email = $1',[req.session.user.email]);
+        if(user.length === 0){
+            res.status(401).send('User Not Found')
+        }else{
+            // console.log(user.rows[0].access_token);
+            res.send({accessToken:user.rows[0].access_token});
+            
+        }
+    }
 })
 
 
