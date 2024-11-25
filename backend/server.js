@@ -19,6 +19,7 @@ const path = require('path'); // for linking static and html files
 //init express
 const express = require('express'); // express server framework
 const bodyParser = require('body-parser'); // parser for middleware
+const axios = require('axios');
 
 // init Security
 const helmet = require('helmet'); //helmet secrutity for middleware and server
@@ -82,8 +83,8 @@ app.use('/register',express.static(path.join(__dirname,STATIC_ROUTE,'Register/st
 
 // Landing Page
 app.get('/',(req,res) => {
-    const logged_in = loggedIn(req);
-    if(logged_in){
+    // const logged_in = loggedIn(req);
+    if(req.session.user){
         console.log('user logged in');
         res.redirect('/dashboard');
     }else{
@@ -95,8 +96,8 @@ app.get('/',(req,res) => {
 });
 //Monthly Budget Page
 app.get('/monthlyBudget', (req,res)=>{
-    const logged_in = loggedIn(req);
-    if(logged_in){
+    // const logged_in = loggedIn(req);
+    if(req.session.user){
         console.log('user logged in');
         res.sendFile(path.join(__dirname,STATIC_ROUTE,'Monthly Budgeting Page','index.html'));
     }else{
@@ -108,8 +109,8 @@ app.get('/monthlyBudget', (req,res)=>{
 
 //Weekly Budget Page
 app.get('/weeklyBudget', (req,res)=>{
-    const logged_in = loggedIn(req);
-    if(logged_in){
+    // const logged_in = loggedIn(req);
+    if(req.session.user){
         console.log('user logged in');
         res.sendFile(path.join(__dirname,STATIC_ROUTE,'Weekly Budgeting Page','index.html')); 
     }else{
@@ -121,7 +122,7 @@ app.get('/weeklyBudget', (req,res)=>{
 //Bank Information Page
 app.get('/bankInfo', (req,res)=>{
     const logged_in = loggedIn(req);
-    if(logged_in){
+    if(req.session.user){
         console.log('user logged in')
         res.sendFile(path.join(__dirname,STATIC_ROUTE,'Bank Info Page','index.html'));
     }else{
@@ -133,8 +134,8 @@ app.get('/bankInfo', (req,res)=>{
 
 //Profile Page
 app.get('/profile', (req,res)=>{
-    const logged_in = loggedIn(req);
-    if(logged_in){
+    // const logged_in = loggedIn(req);
+    if(req.session.user){
         console.log('user logged in')
         res.sendFile(path.join(__dirname,STATIC_ROUTE,'Profile Page','index.html'));
     }else{
@@ -151,8 +152,8 @@ app.get('/login',(req,res)=> {
 
 // dashboard page
 app.get('/dashboard',(req,res) => {
-    const logged_in = loggedIn(req);
-    if(logged_in){
+    // const logged_in = loggedIn(req);
+    if(req.session.user){
         console.log('user logged in');
         res.sendFile(path.join(__dirname,STATIC_ROUTE,'Dashboard','index.html'));
     }else{
@@ -183,6 +184,7 @@ app.post('/signup',async (req,res)=> {
     const hashed_password = await bcrypt.hash(password,salt_rounds);
     try{
         await pool.query('INSERT INTO users (email,first_name,last_name,password) VALUES ($1,$2,$3,$4)',[email,first_name,last_name,hashed_password]);
+        req.session.user = {email:email,name:first_name,bank_connected:false};
         // res.status(201).send('User Registered') // not needed but ill keep around just in case
         res.redirect('/register'); // redirect to register page (waiting for it to be done....)
     }catch(error){
@@ -191,14 +193,12 @@ app.post('/signup',async (req,res)=> {
     }
       });
 
-async function postAccessToken(){
-    return;
-}
+
 
 // Register Page
 app.get('/register',async (req,res)=>{
-    const logged_in = await loggedIn(req);
-    if(logged_in){
+    // const logged_in = await loggedIn(req);
+    if(req.session.user){
         res.sendFile(path.join(__dirname,STATIC_ROUTE,'Register','index.html'));
     }else{
         res.redirect('/');
@@ -225,7 +225,7 @@ app.post('/login',async (req,res) => {
     const password_confirm = await bcrypt.compare(password,user_exist.rows[0].password);
     console.log(password_confirm)
     if(password_confirm){
-        req.session.user = {id:user_exist.rows[0].id,name:user_exist.rows[0].first_name,bank_connected:user_exist.rows[0].bank_connected}
+        req.session.user = {email:user_exist.rows[0].email,name:user_exist.rows[0].first_name,bank_connected:user_exist.rows[0].bank_connected}
         console.log(req.session.user);
         res.redirect('/dashboard');
         console.log('login success');
@@ -253,11 +253,25 @@ app.listen(port,() => {
 
 
 
+app.post('/post_access_token',async (req,res) => {
+    const access_token_query = 'UPDATE users SET access_token = $1 WHERE email = $2';
+    const bank_register_query = 'UPDATE users SET bank_connected = $1 WHERE email = $2';
+    const accessToken = req.body.access_token;
+    console.log(req.session.user);
+    // const user_info = axios.get(`http://localhost:${port}/check_user_session`);
+    // console.log(user_info);
 
-
-async function loggedIn(request){
-    if(request.session.user){
-        return true;
+    try{
+        if(req.session.user){
+            await pool.query(access_token_query,[accessToken,req.session.user.email]);
+            await pool.query(bank_register_query,[true,req.session.user.email]);
+            console.log('access token successfully updates');
+        }
+    }catch(e){
+        console.log('error posting access token');
+        console.log(e);
     }
-    return false;
-}
+    res.redirect(302, '/'); 
+})
+
+

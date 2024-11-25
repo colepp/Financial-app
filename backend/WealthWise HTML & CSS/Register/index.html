@@ -38,6 +38,7 @@
     let linkTokenData;
 
     const api_url = 'http://localhost:8000';
+    const web_url = 'http://localhost:3000';
 
     const initializeLink = async function() {
         const linkTokenResponse = await fetch(`${api_url}/api/create_link_token`);
@@ -55,7 +56,7 @@
             token: linkTokenData.link_token,
             onSuccess: async (publicToken, metadata) => {
                 console.log('Public Token: ', publicToken);
-                await exchangeToken(publicToken);
+                const access_token = await exchangeToken(publicToken);
             },
             onExit: (err, metadata) => {
                 console.log('Error: ', JSON.stringify(err));
@@ -76,8 +77,18 @@
             body: JSON.stringify({ public_token: publicToken }),
         });
         const tokenExchangeData = await tokenExchangeResponse.json();
+        // console.log(tokenExchangeData);
         console.log('Done exchange token');
-        window.location.href='index.html';
+        // window.location.href='index.html';
+        try{
+            const tokenPublished = await fetch(`${web_url}/post_access_token`,{
+                method:'POST',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify({access_token:tokenExchangeData}),
+            })
+        }catch(e){
+            console.log(e);
+        }
 
     }
 

@@ -13,6 +13,8 @@ services:
   plaid_api:
     build:
       context: ./plaid
+    depends_on:
+      - web_server
     working_dir: /app
     ports:
       - "8000:8000"

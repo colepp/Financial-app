@@ -11,7 +11,9 @@ const json = require('body-parser/lib/types/json'); // json tool
 const cors = require('cors'); // making cors oject
 app.use(cors()) // allow for access from all origins NOTE change on deployment
 
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 8000 
+
+const axios = require('axios');
 
 app.use(
     session({
@@ -48,6 +50,8 @@ const config = new Configuration({
 
 const client = new PlaidApi(config);
 
+
+// API SETUP
 app.get("/api/create_link_token", async (req, res, next) => {
     const tokenResponse = await client.linkTokenCreate({
       user: { client_user_id: req.sessionID },
@@ -67,13 +71,21 @@ app.post('/api/exchange_public_token', async(req, res, next)=>{
     });
 console.log(`Response:  ${JSON.stringify(exchangeResponse.data)}`)
 req.session.access_token = exchangeResponse.data.access_token;
-res.json(true);
+
+res.json(req.session.access_token);
 });
 
+
+
+
+// API FUNCTIONS
 app.get('/api/is_user_connected', async (req, res, next) => {
     console.log('Access Token: ', req.session.access_token);
     return req.session.access_token ? res.json({ status : true}) : res.json({ status : false});
-})
+});
+
+
+
 
 app.get('/api/get_connected_bank', async(req, res, next)=>{
     accessToken = req.session.access_token;
@@ -106,5 +118,10 @@ app.get('/api/get_transactions', async (req, res, next) =>{
     });
     console.log(getTransactions.data);
     res.json(getTransactions.data.transactions);
-})
+});
+
+async function get_acccess_token() {
+    return
+}
+
 
