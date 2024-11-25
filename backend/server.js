@@ -85,10 +85,10 @@ app.use('/register',express.static(path.join(__dirname,STATIC_ROUTE,'Register/st
 app.get('/',(req,res) => {
     // const logged_in = loggedIn(req);
     if(req.session.user){
-        console.log('user logged in');
-        res.redirect('/dashboard');
+        if(!(req.session.user.bank_connected)){
+            res.redirect('/register')
+        }else{res.redirect('/dashboard');}
     }else{
-        console.log('user not logged in');
         res.sendFile(path.join(__dirname,STATIC_ROUTE,'Landing Page','index.html'));
     }
     
@@ -96,12 +96,9 @@ app.get('/',(req,res) => {
 });
 //Monthly Budget Page
 app.get('/monthlyBudget', (req,res)=>{
-    // const logged_in = loggedIn(req);
     if(req.session.user){
-        console.log('user logged in');
         res.sendFile(path.join(__dirname,STATIC_ROUTE,'Monthly Budgeting Page','index.html'));
     }else{
-        console.log('user not logged in');
         res.redirect('/');
     }
     
@@ -109,24 +106,18 @@ app.get('/monthlyBudget', (req,res)=>{
 
 //Weekly Budget Page
 app.get('/weeklyBudget', (req,res)=>{
-    // const logged_in = loggedIn(req);
     if(req.session.user){
-        console.log('user logged in');
         res.sendFile(path.join(__dirname,STATIC_ROUTE,'Weekly Budgeting Page','index.html')); 
     }else{
-        console.log('user not logged in');
         res.redirect('/');
     }
 });
 
 //Bank Information Page
 app.get('/bankInfo', (req,res)=>{
-    const logged_in = loggedIn(req);
     if(req.session.user){
-        console.log('user logged in')
         res.sendFile(path.join(__dirname,STATIC_ROUTE,'Bank Info Page','index.html'));
     }else{
-        console.log('user not logged in');
         res.redirect('/');
     }
     
@@ -134,12 +125,9 @@ app.get('/bankInfo', (req,res)=>{
 
 //Profile Page
 app.get('/profile', (req,res)=>{
-    // const logged_in = loggedIn(req);
     if(req.session.user){
-        console.log('user logged in')
         res.sendFile(path.join(__dirname,STATIC_ROUTE,'Profile Page','index.html'));
     }else{
-        console.log('user not logged in')
         res.redirect('/');
     }
 });
@@ -152,12 +140,9 @@ app.get('/login',(req,res)=> {
 
 // dashboard page
 app.get('/dashboard',(req,res) => {
-    // const logged_in = loggedIn(req);
     if(req.session.user){
-        console.log('user logged in');
         res.sendFile(path.join(__dirname,STATIC_ROUTE,'Dashboard','index.html'));
     }else{
-        console.log('user not logged in');
         res.redirect('/');
     }
 })
@@ -169,8 +154,8 @@ app.get('/signup',(req,res) => {
 
 app.post('/signup',async (req,res)=> {
     // gather signup items
-    console.log(req.body);
     const {email,first_name,last_name,password} = req.body;
+    
 
     // check if email already in use if so return error 
     const user_exist = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
@@ -185,8 +170,7 @@ app.post('/signup',async (req,res)=> {
     try{
         await pool.query('INSERT INTO users (email,first_name,last_name,password) VALUES ($1,$2,$3,$4)',[email,first_name,last_name,hashed_password]);
         req.session.user = {email:email,name:first_name,bank_connected:false};
-        // res.status(201).send('User Registered') // not needed but ill keep around just in case
-        res.redirect('/register'); // redirect to register page (waiting for it to be done....)
+        res.redirect('/');
     }catch(error){
         console.log('Error Registering Users',error);
         res.status(500).send('User Could Not Be Registered');
@@ -197,7 +181,6 @@ app.post('/signup',async (req,res)=> {
 
 // Register Page
 app.get('/register',async (req,res)=>{
-    // const logged_in = await loggedIn(req);
     if(req.session.user){
         res.sendFile(path.join(__dirname,STATIC_ROUTE,'Register','index.html'));
     }else{
@@ -211,24 +194,17 @@ app.get('/register',async (req,res)=>{
 // Login Page
 app.post('/login',async (req,res) => {
     const {email,password} = req.body;
-    console.log(req.body);
-    console.log(email);
-
     // check if user exists
     const user_exist = await pool.query('SELECT * FROM users WHERE email = $1',[email]);
-    console.log(user_exist.rows.length);
     if(user_exist.rows.length === 0){
         return res.status(401).send('Invalid Email or Password.');
     }
 
     // password compare
     const password_confirm = await bcrypt.compare(password,user_exist.rows[0].password);
-    console.log(password_confirm)
     if(password_confirm){
         req.session.user = {email:user_exist.rows[0].email,name:user_exist.rows[0].first_name,bank_connected:user_exist.rows[0].bank_connected}
-        console.log(req.session.user);
-        res.redirect('/dashboard');
-        console.log('login success');
+        res.redirect('/');
     }else{
         res.status(401).send('Invalid Email or Password.');
     }
@@ -239,11 +215,25 @@ app.get('/logout',async (req,res) =>{
         req.session.user = null;
         res.redirect('/');
     }
-})
+});
+
+app.get('/session', async (req,res) => {
+    if(req.session.user){
+        res.send(req.session.user);
+    }else{
+        res.send(null);
+    }
+});
 
 // Settings Page
 app.get('/Settings',(req,res) => {
-    res.sendFile(path.join(__dirname,STATIC_ROUTE,'Settings Page','index.html'));
+    if(req.session.user){
+        res.sendFile(path.join(__dirname,STATIC_ROUTE,'Settings Page','index.html'));
+    }
+    else{
+        res.redirect('/');
+    }
+    
 });
 
 // set server to listen on selected port
@@ -254,18 +244,16 @@ app.listen(port,() => {
 
 
 app.post('/post_access_token',async (req,res) => {
+
     const access_token_query = 'UPDATE users SET access_token = $1 WHERE email = $2';
     const bank_register_query = 'UPDATE users SET bank_connected = $1 WHERE email = $2';
+
     const accessToken = req.body.access_token;
-    console.log(req.session.user);
-    // const user_info = axios.get(`http://localhost:${port}/check_user_session`);
-    // console.log(user_info);
 
     try{
         if(req.session.user){
             await pool.query(access_token_query,[accessToken,req.session.user.email]);
             await pool.query(bank_register_query,[true,req.session.user.email]);
-            console.log('access token successfully updates');
         }
     }catch(e){
         console.log('error posting access token');

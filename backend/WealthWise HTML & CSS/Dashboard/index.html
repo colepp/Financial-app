@@ -19,15 +19,27 @@
             <button href="/" class="option"><a href="/bankInfo">Bank Info</a></button>
             <button href="/" class="option"><a href="/profile">Profile</a></button>
             <button href="/" class="option"><a href="/settings">Settings</a></button>
-            <button href="/" class="logout">Log out</button>
+            <button href="/" class="logout"><a href="/logout">Log out</a></button>
         </div>
         <h1 class="tab-title">Dashboard</h1>
         <div class="tabcontent">
-            <h1 style="margin-top: 10%";>Hello, </h1>
+            <h1 id="user_name" style="margin-top: 10%";>Hello, </h1>
             <h1>Welcome to your dashboard!</h1>
             <h2>
                 <--Use the sidebar to navigate your spending, banking info, profile, and settings pages.
             </h2>
         </div>
+        <script>
+            async function getSession() {
+                const user_details = await fetch('http://localhost:3000/session');
+                console.log(user_details)
+                if(user_details){
+                    const user_name = document.getElementById('user_name');
+                    user_name.textContent = user_details.name;
+                }
+                
+            }
+
+        </script>
     </body>
 </html>
