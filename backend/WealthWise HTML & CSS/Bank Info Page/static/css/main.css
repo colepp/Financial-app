@@ -105,3 +105,6 @@
     padding-right: 20%;
     background: rgba(236,235,243,1);
   }
+  .hidden{
+    display: none;
+  }

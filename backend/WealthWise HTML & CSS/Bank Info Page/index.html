@@ -23,9 +23,20 @@
     </div>
     <h1 class="tab-title">Bank Information</h1>
     <div class="tabcontent">
-        <div id="chart"></div>
-        <script src="https://d3js.org/d3.v7.min.js"></script>
-        <!--<script src="./js/script.js"></script>-->
+        <div id="bankName" class="hidden"></div>
+        <div id="accountName" class="hidden"></div>
+        <div id="accountBalance" class="hidden"></div>
+        <p id="transactionMessage" class="hidden"></p>
+        <table id="transactionsTable" class="hidden">
+            <thead>
+              <tr>
+                <th style="padding-right: 20px">Date</th>
+                <th style="padding-left: 20px">Amount</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        <script src="./js/script.js"></script>
     </div>
 </body>
 </html>

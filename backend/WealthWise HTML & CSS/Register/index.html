@@ -57,6 +57,7 @@
             onSuccess: async (publicToken, metadata) => {
                 console.log('Public Token: ', publicToken);
                 const access_token = await exchangeToken(publicToken);
+                window.location.href = '/dashboard';
             },
             onExit: (err, metadata) => {
                 console.log('Error: ', JSON.stringify(err));

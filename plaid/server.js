@@ -3,6 +3,7 @@ const express = require('express'); // express init
 const bodyParser = require('body-parser'); // parsing for JSON
 const session = require('express-session'); // session tool for express
 const app = express(); // making express app object
+const moment = require('moment'); // Used to get current date
 
 const { Configuration, PlaidApi, PlaidEnvironments } = require('plaid'); // plaid tools
 const json = require('body-parser/lib/types/json'); // json tool
@@ -52,7 +53,7 @@ const client = new PlaidApi(config);
 
 
 // API SETUP
-app.get("/api/create_link_token", async (req, res, next) => {
+app.get("/api/create_link_token", async (req, res) => {
     const tokenResponse = await client.linkTokenCreate({
       user: { client_user_id: req.sessionID },
       client_name: "WealthWise",
@@ -65,7 +66,7 @@ app.get("/api/create_link_token", async (req, res, next) => {
     res.json(tokenResponse.data);
   });
 
-app.post('/api/exchange_public_token', async(req, res, next)=>{
+app.post('/api/exchange_public_token', async(req, res)=>{
     const exchangeResponse = await client.itemPublicTokenExchange({
         public_token: req.body.public_token,
     });
@@ -79,7 +80,7 @@ res.json(req.session.access_token);
 
 
 // API FUNCTIONS
-app.get('/api/is_user_connected', async (req, res, next) => {
+app.get('/api/is_user_connected', async (req, res) => {
     console.log('Access Token: ', req.session.access_token);
     return req.session.access_token ? res.json({ status : true}) : res.json({ status : false});
 });
@@ -87,10 +88,9 @@ app.get('/api/is_user_connected', async (req, res, next) => {
 
 
 
-app.get('/api/get_connected_bank', async(req, res, next)=>{
-    accessToken = req.session.access_token;
+app.post('/api/get_connected_bank', async(req, res)=>{
     const bankRequest = await client.itemGet({
-        access_token: accessToken
+        access_token: req.body.access_token
     })
     console.log(`Item Response:  ${JSON.stringify(bankRequest.data)}`);
     const bankId = bankRequest.data.item.institution_id;
@@ -102,17 +102,17 @@ app.get('/api/get_connected_bank', async(req, res, next)=>{
     res.json(nameRequest.data.institution.name);
 });
 
-app.get('/api/get_accounts', async (req, res, next) =>{
+app.post('/api/get_accounts', async (req, res) =>{
     const getAccounts = await client.accountsGet({
-        access_token: req.session.access_token
+        access_token: req.body.access_token
     });
     console.log(getAccounts.data);
     res.json(getAccounts.data.accounts);
 })
 
-app.get('/api/get_transactions', async (req, res, next) =>{
+app.get('/api/get_transactions', async (req, res) =>{
     const getTransactions = await client.transactionsGet({
-        access_token: req.session.access_token,
+        access_token: req.body.access_token,
         start_date: '2024-10-01',
         end_date: '2024-10-10'
     });
@@ -125,3 +125,44 @@ async function get_acccess_token() {
 }
 
 
+app.get('/api/get_date', async(req, res)=>{
+    const today = moment().format("YYYY-MM-DD");
+    console.log('Today', today);
+    res.json(today)
+});
+
+app.get('/api/get_last_month_date', async(req, res)=>{
+    const lastMonth = moment(). subtract(31, 'days').format('YYYY-MM-DD');
+    console.log('Last Month', lastMonth);
+    res.json(lastMonth);
+});
+
+app.get('/api/get_last_week_date', async(req, res)=>{
+    const lastWeek = moment(). subtract(7, 'days').format('YYYY-MM-DD');
+    console.log('Last Week', lastWeek);
+    res.json(lastWeek);
+});
+
+app.post('/api/get_monthly_transactions', async (req, res) =>{
+    const startDate = moment().subtract(31, "days").format("YYYY-MM-DD");
+    const endDate = moment().format("YYYY-MM-DD");
+    const getTransactions = await client.transactionsGet({
+        access_token: req.body.access_token,
+        start_date: startDate,
+        end_date: endDate
+    })
+    console.log(getTransactions.data)
+    res.json(getTransactions.data.transactions)
+});
+
+app.post('/api/get_weekly_transactions', async(req, res)=>{
+    const startDate = moment().subtract(7, 'days').format("YYYY-MM-DD");
+    const endDate = moment().format('YYYY-MM-DD');
+    const getTransactions = await client.transactionsGet({
+        access_token: req.body.access_token,
+        start_date: startDate,
+        end_date: endDate
+    });
+    console.log(getTransactions.data);
+    res.json(getTransactions.data.transactions);
+});

@@ -271,6 +271,7 @@ app.get('/get_access_token',async (req,res) => {
         }else{
             // console.log(user.rows[0].access_token);
             res.send({accessToken:user.rows[0].access_token});
+            //res.json({accessToken:user.rows[0].access_token});
             
         }
     }
