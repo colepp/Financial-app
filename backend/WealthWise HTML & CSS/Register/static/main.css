@@ -103,6 +103,8 @@ header {
   gap: 10px;
   position: fixed;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   width: 85%;
   height: 90%;
@@ -115,8 +117,8 @@ header {
   font-size: 20px;
   width: 50%;
   height: 100px;
-  background: rgba(236,235,243,1);
-  border: 1px solid rgba(255,255,255,1);
+  background:rgba(132,220,198,0.6);
+  border: 1px solid rgba(132,220,198,1);
   border-radius: 38px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }

@@ -15,19 +15,20 @@
         <button class="profile"></button>
     </header>
     <div class="sidebar">
-        <button href="/" class="option">Spending</button>
+        <button href="/" class="option">Monthly Spending</button>
+        <button href="/" class="option">Weekly Spending</button>
         <button href="/" class="option" style="background:rgba(132,220,198,0.6);">Bank Info</button>
         <button href="/" class="option">Profile</button>
         <button href="/" class="option">Settings</button>
-        <button href="/" class="logout">log out</button>
+        <button href="/" class="logout"><a href="/logout">Log out</a></button>
     </div>
-    <h1 class="tab-title">Bank Information</h1>
+    <h1 class="tab-title">Please Connect to a Bank to Continue</h1>
     <div class="dashboard-section">
-        <a href="#" id="connect" class="underline">Connect to Bank</a>
-        <button class="dashboard-button" id="testConnect">Are we connected?</button>
+        <button class="dashboard-button"><a href="#" id="connect">Connect to Bank</a></button>
+        <!--<button class="dashboard-button" id="testConnect">Are we connected?</button>
         <button class="dashboard-button" id="findBank">What is my Bank?</button>
         <button class="dashboard-button" id="getAccounts">What are my accounts?</button>
-        <button class="dashboard-button" id="getTransactions">What are my transactions?</button>
+        <button class="dashboard-button" id="getTransactions">What are my transactions?</button>-->
         <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
     </div>
 </body>
@@ -117,11 +118,11 @@
         console.log(JSON.stringify(transactions));
     }
 
-    document.querySelector('#getTransactions').addEventListener('click', getTransactions);
-    document.querySelector('#findBank').addEventListener('click', findBank);
+    //document.querySelector('#getTransactions').addEventListener('click', getTransactions);
+    //document.querySelector('#findBank').addEventListener('click', findBank);
     document.querySelector('#connect').addEventListener('click', startLink);
-    document.querySelector('#testConnect').addEventListener('click', checkConnect);
-    document.querySelector('#getAccounts').addEventListener('click', getAccounts);
+    //document.querySelector('#testConnect').addEventListener('click', checkConnect);
+    //document.querySelector('#getAccounts').addEventListener('click', getAccounts);
     initializeLink();
 
 </script>
