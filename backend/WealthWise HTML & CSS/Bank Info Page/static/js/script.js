@@ -69,7 +69,7 @@ async function getInfo(){
   accountDiv.style.display = 'block';
   accountDiv.innerHTML = `<p>Account Name: ${account}</p>`
   balanceDiv.style.display = 'block';
-  balanceDiv.innerHTML = `<p>Account Balance: ${balance}</p>`
+  balanceDiv.innerHTML = `<p>Account Balance: $${balance}</p>`
 
   if(actualTransactions.length > 0){
     const transactionMessage = document.getElementById('transactionMessage');
@@ -79,7 +79,7 @@ async function getInfo(){
     tableBody.style.display = 'block';
     actualTransactions.forEach(item=>{
         const row = document.createElement('tr');
-        row.innerHTML=`<td style="padding-right: 35px">${item.date}</td><td style="padding-left: 35px">${item.amount}</td>`//<td>${item.age}</td>`;
+        row.innerHTML=`<td style="padding-right: 35px">${item.date}</td><td style="padding-left: 35px">$${item.amount}</td>`//<td>${item.age}</td>`;
         tableBody.appendChild(row);
   });
   } else{
