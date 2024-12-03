@@ -38,6 +38,8 @@ app.listen(PORT, () =>{
     console.log('We are up and running. Head over to http://localhost:8000/');
 });
 
+
+//Initializing the PLAID client
 const config = new Configuration({
     basePath: PlaidEnvironments[process.env.PLAID_ENV],
     baseOptions: {
@@ -53,6 +55,8 @@ const client = new PlaidApi(config);
 
 
 // API SETUP
+
+//Create link token for opening the PLAID link
 app.get("/api/create_link_token", async (req, res) => {
     const tokenResponse = await client.linkTokenCreate({
       user: { client_user_id: req.sessionID },
@@ -66,6 +70,8 @@ app.get("/api/create_link_token", async (req, res) => {
     res.json(tokenResponse.data);
   });
 
+
+//Exchange public token for access token from PLAID
 app.post('/api/exchange_public_token', async(req, res)=>{
     const exchangeResponse = await client.itemPublicTokenExchange({
         public_token: req.body.public_token,
@@ -77,17 +83,9 @@ res.json(req.session.access_token);
 });
 
 
+//API Functions
 
-
-// API FUNCTIONS
-app.get('/api/is_user_connected', async (req, res) => {
-    console.log('Access Token: ', req.session.access_token);
-    return req.session.access_token ? res.json({ status : true}) : res.json({ status : false});
-});
-
-
-
-
+//Retrieve connected bank name from PLAID
 app.post('/api/get_connected_bank', async(req, res)=>{
     const bankRequest = await client.itemGet({
         access_token: req.body.access_token
@@ -102,47 +100,37 @@ app.post('/api/get_connected_bank', async(req, res)=>{
     res.json(nameRequest.data.institution.name);
 });
 
+//Retrieve connected account(s) from PLAID
 app.post('/api/get_accounts', async (req, res) =>{
     const getAccounts = await client.accountsGet({
         access_token: req.body.access_token
     });
     console.log(getAccounts.data);
     res.json(getAccounts.data.accounts);
-})
-
-app.get('/api/get_transactions', async (req, res) =>{
-    const getTransactions = await client.transactionsGet({
-        access_token: req.body.access_token,
-        start_date: '2024-10-01',
-        end_date: '2024-10-10'
-    });
-    console.log(getTransactions.data);
-    res.json(getTransactions.data.transactions);
 });
 
-async function get_acccess_token() {
-    return
-}
-
-
+//Retrieve today's date
 app.get('/api/get_date', async(req, res)=>{
     const today = moment().format("YYYY-MM-DD");
     console.log('Today', today);
     res.json(today)
 });
 
+//Retrive last month's date
 app.get('/api/get_last_month_date', async(req, res)=>{
     const lastMonth = moment(). subtract(31, 'days').format('YYYY-MM-DD');
     console.log('Last Month', lastMonth);
     res.json(lastMonth);
 });
 
+//Retrieve last week's date
 app.get('/api/get_last_week_date', async(req, res)=>{
     const lastWeek = moment(). subtract(7, 'days').format('YYYY-MM-DD');
     console.log('Last Week', lastWeek);
     res.json(lastWeek);
 });
 
+//Retrieve monthly transactions from PLAID
 app.post('/api/get_monthly_transactions', async (req, res) =>{
     const startDate = moment().subtract(31, "days").format("YYYY-MM-DD");
     const endDate = moment().format("YYYY-MM-DD");
@@ -155,6 +143,7 @@ app.post('/api/get_monthly_transactions', async (req, res) =>{
     res.json(getTransactions.data.transactions)
 });
 
+//Retrieve weekly transactions from PLAID
 app.post('/api/get_weekly_transactions', async(req, res)=>{
     const startDate = moment().subtract(7, 'days').format("YYYY-MM-DD");
     const endDate = moment().format('YYYY-MM-DD');

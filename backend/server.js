@@ -72,7 +72,6 @@ const STATIC_ROUTE = './WealthWise HTML & CSS';
 
 app.use('/',express.static(path.join(__dirname,STATIC_ROUTE,'Landing Page/static')));
 app.use('/login',express.static(path.join(__dirname,STATIC_ROUTE,'Login Page/static')));
-app.use('/settings',express.static(path.join(__dirname,STATIC_ROUTE,'Settings Page/static')));
 app.use('/signup',express.static(path.join(__dirname,STATIC_ROUTE,'Signup Page/static')));
 app.use('/dashboard',express.static(path.join(__dirname,STATIC_ROUTE,'Dashboard/static')));
 app.use('/monthlyBudget',express.static(path.join(__dirname,STATIC_ROUTE,'Monthly Budgeting Page/static')));
@@ -84,7 +83,6 @@ app.use('/register',express.static(path.join(__dirname,STATIC_ROUTE,'Register/st
 
 // Landing Page
 app.get('/',(req,res) => {
-    // const logged_in = loggedIn(req);
     if(req.session.user){
         if(!(req.session.user.bank_connected)){
             res.redirect('/register')
@@ -165,7 +163,6 @@ app.post('/signup',async (req,res)=> {
 
     // hash passowrd
     const salt_rounds = 10 // hashing error
-    // const hashed_password = await bcrypt.hash(password,salt_rounds)
     const hashed_password = await bcrypt.hash(password,salt_rounds);
     try{
         await pool.query('INSERT INTO users (email,first_name,last_name,password) VALUES ($1,$2,$3,$4)',[email,first_name,last_name,hashed_password]);
@@ -226,16 +223,6 @@ app.get('/session', async (req,res) => {
     }
 });
 
-// Settings Page
-app.get('/Settings',(req,res) => {
-    if(req.session.user){
-        res.sendFile(path.join(__dirname,STATIC_ROUTE,'Settings Page','index.html'));
-    }
-    else{
-        res.redirect('/');
-    }
-    
-});
 
 // set server to listen on selected port
 app.listen(port,() => {
@@ -243,7 +230,7 @@ app.listen(port,() => {
 });
 
 
-
+//Store access token in database
 app.post('/post_access_token',async (req,res) => {
 
     const access_token_query = 'UPDATE users SET access_token = $1 WHERE email = $2';
@@ -263,6 +250,7 @@ app.post('/post_access_token',async (req,res) => {
     res.redirect(302, '/'); 
 });
 
+//Retrieve access token from database
 app.get('/get_access_token',async (req,res) => {
     if(req.session.user){
         const user = await pool.query('SELECT * FROM users WHERE email = $1',[req.session.user.email]);
@@ -271,7 +259,6 @@ app.get('/get_access_token',async (req,res) => {
         }else{
             console.log(user.rows[0].access_token);
             res.send({accessToken:user.rows[0].access_token});
-            //res.json({accessToken:user.rows[0].access_token});
             
         }
     }
